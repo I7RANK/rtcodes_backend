@@ -3,6 +3,25 @@ import Store from '../models/store.js';
 
 const router = Router();
 
+router.get('/', async (req, res) => {
+  try {
+    const { limit, name, skip } = req.query;
+    const maxLimit = 120;
+    const safeLimit = Math.min(parseInt(limit) || 12, maxLimit);
+    const query =
+      name && name.trim() !== ''
+        ? Store.find({ name: { $regex: name, $options: 'i' } })
+        : Store.find();
+    query.limit(safeLimit);
+    query.skip(skip);
+    res.json(await query.exec());
+  } catch (error) {
+    res.status(400).json({
+      error: error.message,
+    });
+  }
+});
+
 router.post('/', async (req, res) => {
   console.log('/stores', req.body);
   try {
