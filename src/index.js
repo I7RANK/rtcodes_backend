@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import { startConnection } from './db-connection.js';
 import storesRouter from './routes/stores.routes.js';
 
@@ -7,6 +8,7 @@ async function index() {
   const app = express();
   const port = process.env.PORT || 3000;
 
+  app.use(cors());
   app.use(express.json());
   app.use('/stores', storesRouter);
   app.get('/ping', (req, res) => {
