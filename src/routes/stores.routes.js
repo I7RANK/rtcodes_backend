@@ -7,7 +7,7 @@ router.get('/', async (req, res) => {
   try {
     const { limit, name, skip } = req.query;
     const maxLimit = 120;
-    const safeLimit = Math.min(parseInt(limit) || 12, maxLimit);
+    const safeLimit = Math.min(parseInt(limit) || 24, maxLimit);
     const query =
       name && name.trim() !== ''
         ? Store.find({ name: { $regex: name, $options: 'i' } })
